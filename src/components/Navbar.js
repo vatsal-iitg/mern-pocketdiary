@@ -1,12 +1,18 @@
 import React from 'react';
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import { useLocation } from 'react-router-dom';
 
 const Navbar = () => {
+  
+  let navigate = useNavigate();
+  const handleLogout=()=>{
+    localStorage.removeItem('token')
+    navigate("/login")
+  }
 const location = useLocation();
   return (
     <>
-    <nav className="navbar navbar-expand-lg navbar-light bg-light">
+    <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
   <Link className="navbar-brand" to="/">Diary</Link>
   <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span className="navbar-toggler-icon"></span>
@@ -21,10 +27,11 @@ const location = useLocation();
         <Link className="nav-link" to="/about">About</Link>
       </li>
     </ul>
+    {!localStorage.getItem('token')?
     <form className="form-inline my-2 my-lg-0">
-      <input className="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search"/>
-      <button className="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-    </form>
+      <Link to="/login" className="btn btn-primary mx-2" role="button">Login</Link>
+      <Link to="/signup" className="btn btn-primary mx-2" role="button">Sign-Up</Link>
+    </form>:<button onClick={handleLogout} className="btn btn-primary">Logout</button>}
   </div>
 </nav>
     </>
